@@ -1,0 +1,39 @@
+{
+  "builders": [
+    {
+      "type": "vmware",
+      "vm_name": "cloudfoundry",
+
+      "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.2-server-amd64.iso",
+      "iso_md5": "af5f788aee1b32c4b2634734309cc9e9",
+
+      "ssh_username": "cloudfoundry",
+      "ssh_password": "cloudfoundry",
+      "ssh_wait_timeout": "8m",
+
+      "http_directory": ".",
+      "boot_wait": "15s",
+      "boot_command": [
+        "<esc><esc><enter><wait>",
+        "/install/vmlinuz noapic ",
+        "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
+        "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+        "hostname={{ .Name }} ",
+        "fb=false debconf/frontend=noninteractive ",
+        "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA ",
+        "keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+        "initrd=/install/initrd.gz -- ",
+        "<enter>"
+      ]
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "path": "./update.sh",
+      "execute_command": "echo 'cloudfoundry' | sudo -S sh '{{ .Path }}'"
+    }
+  ]
+
+}
