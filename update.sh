@@ -1,2 +1,4 @@
-sudo apt-get update
-sudo apt-get upgrade -y
+#!/usr/bin/env bash
+
+apt-get update
+apt-get upgrade -y

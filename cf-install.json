@@ -31,7 +31,17 @@
   "provisioners": [
     {
       "type": "shell",
-      "path": "./update.sh",
+      "scripts": [ "./update.sh", "./quota-config.sh" ],
+      "execute_command": "echo 'cloudfoundry' | sudo -S sh '{{ .Path }}'"
+    },
+    {
+      "type": "shell",
+      "inline": [ "reboot" ],
+      "execute_command": "echo 'cloudfoundry' | sudo -S sh '{{ .Path }}'"
+    },
+    {
+      "type": "shell",
+      "scripts": [ "./quota-check.sh", "./lucid-fs.sh" ],
       "execute_command": "echo 'cloudfoundry' | sudo -S sh '{{ .Path }}'"
     }
   ]
